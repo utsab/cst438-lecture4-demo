@@ -5,12 +5,11 @@ var https = require('https');
 
 console.log("In getty!!!!!!!!!!!!"); 
 console.log("api key: " + process.env.GETTY_API_KEY); 
-console.log("twitter: " + process.env.TWITTER_CLIENT_ID); 
 
 const options = {
     hostname: "api.gettyimages.com", 
     port: 443, 
-    path: '/v3/search/images',
+    path: '/v3/search/images?fields=comp',
     method: 'GET', 
     headers: {
         'Api-Key': process.env.GETTY_API_KEY
@@ -29,9 +28,16 @@ function makeApiRequest(sendBackResponseToBrowser) {
         
         response.on('end', function() {
             console.log("status code: " + this.statusCode); 
-            console.log("Complete response: " + apiResponse); 
+            //console.log("Complete response: " + apiResponse); 
             /*execute callback*/
-            sendBackResponseToBrowser(apiResponse); 
+            var responseJSON = JSON.parse(apiResponse); 
+            var images = responseJSON.images; 
+            console.log(responseJSON); 
+            console.log("num images: " + images.length); 
+            console.log("url of first image: " + images[0].display_sizes[0].uri); 
+            var imageURI = images[3].display_sizes[0].uri; 
+            
+            sendBackResponseToBrowser(imageURI); 
             
         }); 
     }).on("error", function(e) {
@@ -46,9 +52,9 @@ function makeApiRequest(sendBackResponseToBrowser) {
 /* GET home page. */
 router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Express', className: 'CST438' });
-  makeApiRequest(function(jsonToSendBack){
-      res.send(jsonToSendBack);
-  });
+  makeApiRequest(function(imageURI){
+      res.render('getty', {imageURI: imageURI});
+  }); 
    
 });
 
