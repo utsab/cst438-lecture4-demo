@@ -4,7 +4,7 @@ var https = require('https');
 
 
 console.log("In getty!!!!!!!!!!!!"); 
-console.log("api key: " + process.env.GETTY_API_KEY); 
+console.log("api key: " + (process.env.GETTY_API_KEY || 'a2nx44jnc2tatmpvdk4b2zgg')); 
 
 const options = {
     hostname: "api.gettyimages.com", 
@@ -12,7 +12,7 @@ const options = {
     path: '/v3/search/images?fields=comp',
     method: 'GET', 
     headers: {
-        'Api-Key': process.env.GETTY_API_KEY
+        'Api-Key': process.env.GETTY_API_KEY || 'a2nx44jnc2tatmpvdk4b2zgg'
     }
 }; 
 
@@ -32,12 +32,12 @@ function makeApiRequest(sendBackResponseToBrowser) {
             /*execute callback*/
             var responseJSON = JSON.parse(apiResponse); 
             var images = responseJSON.images; 
-            console.log(responseJSON); 
-            console.log("num images: " + images.length); 
-            console.log("url of first image: " + images[0].display_sizes[0].uri); 
+            // console.log(responseJSON); 
+            // console.log("num images: " + images.length); 
+            // console.log("url of first image: " + images[0].display_sizes[0].uri); 
             var imageURI = images[3].display_sizes[0].uri; 
             
-            sendBackResponseToBrowser(imageURI); 
+            sendBackResponseToBrowser(null, imageURI); 
             
         }); 
     }).on("error", function(e) {
@@ -50,12 +50,15 @@ function makeApiRequest(sendBackResponseToBrowser) {
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  //res.render('index', { title: 'Express', className: 'CST438' });
-  makeApiRequest(function(imageURI){
-      res.render('getty', {imageURI: imageURI});
-  }); 
+// router.get('/', function(req, res, next) {
+//   //res.render('index', { title: 'Express', className: 'CST438' });
+//   makeApiRequest(function(imageURI){
+//       res.render('getty', {imageURI: imageURI});
+//   }); 
    
-});
+// });
 
-module.exports = router;
+//module.exports = router;
+
+module.exports.makeApiRequest = makeApiRequest; 
+

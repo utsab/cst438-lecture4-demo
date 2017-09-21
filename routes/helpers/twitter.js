@@ -4,7 +4,7 @@ var https = require('https');
 var btoa = require('btoa');
 
 var keys = {
-    client: process.env.TWITTER_CLIENT_ID, 
+    client: process.env.TWITTER_CLIENT_ID , 
     secret: process.env.TWITTER_SECRET_KEY
 }
 
@@ -38,8 +38,8 @@ function getAccessToken(handleAccessTokenResponse) {
       });
       
       res.on('end', function() {
-            console.log("########################################"); 
-            console.log("status code: " + this.statusCode); 
+            // console.log("########################################"); 
+            // console.log("status code: " + this.statusCode); 
             //console.log("Complete response: " + completeResponse); 
             var responseJSON = JSON.parse(completeResponse); 
             var accessToken = responseJSON.access_token; 
@@ -83,8 +83,8 @@ function getTweets(accessToken, sendResponseToBrowser) {
       });
       
       twitterResponse.on('end', function() {
-            console.log("########################################"); 
-            console.log("status code: " + this.statusCode); 
+            // console.log("########################################"); 
+            // console.log("status code: " + this.statusCode); 
             //console.log("Complete response: " + completeResponse); 
             
             var responseJSON = JSON.parse(completeResponse); 
@@ -99,16 +99,12 @@ function getTweets(accessToken, sendResponseToBrowser) {
 
 
 
-
-router.get('/', function(req, res, next) {
-  getAccessToken(function(accessToken) {
-    getTweets(accessToken, function(tweets) {
-        //res.send("Hurrah"); 
-        console.log("num tweets: " + tweets.length); 
-        
-        res.render('twitter', {tweets: tweets});
+function doAllTwitterRequests(callback) {
+    getAccessToken(function(accessToken) {
+        getTweets(accessToken, function(tweets) {
+            callback(null, tweets); 
+        }); 
     }); 
-  }); 
-});
+}
 
-module.exports = router;
+module.exports.doAllTwitterRequests = doAllTwitterRequests;
