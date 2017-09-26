@@ -1,12 +1,24 @@
-var should = require("should"); 
-var request = require("request"); 
 var expect = require("chai").expect; 
-var  util = require("util"); 
+var twitter = require("../routes/helpers/twitter"); 
 
-describe("hello world", function() {
-    it("checks that 1 is equal to 1", function(done) {
-        var x = 1; 
-        expect(x).to.equal(1); 
-        done(); 
+
+describe("Twitter api call", function() {
+    it("should return without errors", function(done) {
+        twitter.doAllTwitterRequests(function(error, tweets) {
+            //console.log("tweets: " + tweets.length); 
+            console.log("error: " + error); 
+            
+            expect(error).to.be.a('null'); 
+            done(); 
+        });
     }); 
+    
+    it("should return a list of tweets", function(done) {
+        twitter.doAllTwitterRequests(function(error, tweets) {
+            //console.log("tweets: " + tweets.length); 
+            expect(tweets).to.be.a('array'); 
+            expect(tweets.length).to.be.above(0); 
+            done(); 
+        });
+    });
 }); 
