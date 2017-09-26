@@ -16,7 +16,7 @@ jobs:
             - ./node_modules
        - run:
           name: test
-          command: mocha
+          command: 'mocha'
      branches:
       only:
         - unit_tests
