@@ -6,3 +6,6 @@ jobs:
      steps:
        - checkout
        - run: echo "hello world"
+     branches:
+      only:
+        - unit_tests
