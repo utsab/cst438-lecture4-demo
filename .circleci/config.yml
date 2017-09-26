@@ -3,7 +3,7 @@ jobs:
    build:
      working_directory: ~/cst438-lecture4-demo
      docker:
-       - image: circleci/node:6.11.3
+       - image: circleci/node:4.8.2
      steps:
       - checkout
       - run:
