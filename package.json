@@ -20,6 +20,7 @@
     "process-nextick-args": "^1.0.7",
     "request": "^2.82.0",
     "serve-favicon": "~2.4.2",
-    "should": "^13.1.0"
+    "should": "^13.1.0",
+    "sinon": "^4.0.0"
   }
 }

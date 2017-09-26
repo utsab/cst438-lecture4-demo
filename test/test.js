@@ -1,5 +1,27 @@
 var expect = require("chai").expect; 
 var twitter = require("../routes/helpers/twitter"); 
+var getty = require("../routes/helpers/getty"); 
+var sinon = require("sinon"); 
+
+var sandbox; 
+
+//  beforeEach(function() {
+//     // create a sandbox
+//     console.log("in before..."); 
+//     sandbox = sinon.sandbox.create();
+//     sandbox.stub(getty, "makeApiRequest").callsFake(function(callback) {
+//         callback(null, "http://gettyimages.com/bird.png"); 
+//     });
+//   });
+  
+//   afterEach(function() {
+//     // restore the environment as it was before
+//     // in after....
+//     console.log("in after..............$$$$$$$$$$$$$$"); 
+//     sandbox.restore();
+//   });
+
+
 
 
 describe("Twitter api call", function() {
@@ -21,4 +43,25 @@ describe("Twitter api call", function() {
             done(); 
         });
     });
+}); 
+
+var stub = sinon.stub(getty, "makeApiRequest").callsFake(function(callback) {
+         callback(null, "http://gettyimages.com/bird.png"); 
+    });
+    
+describe("Getty api call", function() {
+    
+    it("should return without errors", function(done) {
+        
+        getty.makeApiRequest(function(error, imgURI) {
+            //console.log("tweets: " + tweets.length); 
+            console.log("imageURI: " + imgURI); 
+            
+            expect(imgURI).to.not.be.a('null'); 
+            done(); 
+        });
+    }); 
+    
+    
+    
 }); 
