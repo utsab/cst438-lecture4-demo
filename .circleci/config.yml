@@ -5,15 +5,21 @@ jobs:
        - image: circleci/node:6.10
      steps:
        - checkout
-       - run:
+      - run:
           name: update-npm
-          command: 'sudo npm install -g npm@latest'  
-       - run:
+          command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
           name: install-npm-wee
-          command: 'npm install'
-       - run:
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
           name: test
-          command: 'm'ocha'
-'     branches:
+          command: mocha
+     branches:
       only:
         - unit_tests
