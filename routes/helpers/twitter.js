@@ -10,6 +10,7 @@ var keys = {
 }
 
 var combined = keys.client + ":" + keys.secret; 
+
 var base64encoded = btoa(combined); 
 
 
@@ -117,7 +118,7 @@ function getTweets(accessToken, sendResponseToBrowser) {
 function doAllTwitterRequests(callback) {
     console.log("In doAllTwitterRequests......"); 
     
-    
+    console.log("combined keys: " + combined); 
     getAccessToken(function(error, accessToken) {
         
         if (error) {
