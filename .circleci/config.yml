@@ -14,13 +14,16 @@ jobs:
       - run:
           name: install-npm-wee
           command: npm install
+      - run:
+          name: install-mocha
+          command: npm install -g mocha
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
-          name: build
-          command: './node_modules/mocha'
+          name: test
+          command: mocha
      branches:
       only:
         - unit_tests
