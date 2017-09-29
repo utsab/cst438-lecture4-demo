@@ -43,6 +43,7 @@ describe("Twitter api call", function() {
             done(); 
         });
     });
+    
 }); 
 
 var stub = sinon.stub(getty, "makeApiRequest").callsFake(function(callback) {
@@ -51,7 +52,7 @@ var stub = sinon.stub(getty, "makeApiRequest").callsFake(function(callback) {
     
 describe("Getty api call", function() {
     
-    it("should return without errors", function(done) {
+    it("should return without errors!", function(done) {
         
         getty.makeApiRequest(function(error, imgURI) {
             //console.log("tweets: " + tweets.length); 
